@@ -1,6 +1,3 @@
-import User from './User';
-import Company from './Company';
-
 export interface Mappable {
   location: {
     lat: number,
@@ -23,9 +20,17 @@ class GoogleMap {
   }
 
   addMarker({ location }: Mappable): void {
-    new google.maps.Marker({
+    const marker = new google.maps.Marker({
       map: this.googleMap,
       position: location,
+    });
+
+    marker.addListener('click', () => {
+      const infoWindow = new google.maps.InfoWindow({
+        content: 'Hello!'
+      });
+
+      infoWindow.open(this.googleMap, marker);
     });
   }
 }

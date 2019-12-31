@@ -1,9 +1,9 @@
 class GoogleMap {
   private googleMap: google.maps.Map;
 
-  constructor() {
+  constructor(id: string) {
     this.googleMap = new google.maps.Map(
-      document.getElementById('map'), {
+      document.getElementById(id), {
       center: {
         lat: 0,
         lng: 0,

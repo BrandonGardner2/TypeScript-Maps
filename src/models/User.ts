@@ -1,6 +1,8 @@
 import faker from 'faker';
 
-class User {
+import { Mappable } from './Map';
+
+class User implements Mappable {
   name: string;
   location: {
     lat: number;

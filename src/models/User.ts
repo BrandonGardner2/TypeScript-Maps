@@ -14,6 +14,11 @@ class User {
       lng: parseFloat(faker.address.longitude()),
     }
   }
+
+
+  htmlSummary(): string {
+    return `User Name: ${this.name}`;
+  }
 }
 
 export default User;

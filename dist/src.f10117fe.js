@@ -85120,10 +85120,49 @@ function () {
     };
   }
 
+  User.prototype.htmlSummary = function () {
+    return "User Name: " + this.name;
+  };
+
   return User;
 }();
 
 exports.default = User;
+},{"faker":"node_modules/faker/index.js"}],"src/models/Company.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var faker_1 = __importDefault(require("faker"));
+
+var Company =
+/** @class */
+function () {
+  function Company() {
+    this.name = faker_1.default.company.companyName();
+    this.catchPhrase = faker_1.default.company.catchPhrase();
+    this.location = {
+      lat: parseFloat(faker_1.default.address.latitude()),
+      lng: parseFloat(faker_1.default.address.longitude())
+    };
+  }
+
+  Company.prototype.htmlSummary = function () {
+    return this.name + ", " + this.catchPhrase;
+  };
+
+  return Company;
+}();
+
+exports.default = Company;
 },{"faker":"node_modules/faker/index.js"}],"src/models/Map.ts":[function(require,module,exports) {
 "use strict";
 
@@ -85144,11 +85183,18 @@ function () {
     });
   }
 
-  GoogleMap.prototype.addMarker = function (_a) {
-    var location = _a.location;
-    new google.maps.Marker({
+  GoogleMap.prototype.addMarker = function (mappable) {
+    var _this = this;
+
+    var marker = new google.maps.Marker({
       map: this.googleMap,
-      position: location
+      position: mappable.location
+    });
+    marker.addListener('click', function () {
+      var infoWindow = new google.maps.InfoWindow({
+        content: mappable.htmlSummary()
+      });
+      infoWindow.open(_this.googleMap, marker);
     });
   };
 
@@ -85171,12 +85217,16 @@ Object.defineProperty(exports, "__esModule", {
 
 var User_1 = __importDefault(require("./models/User"));
 
+var Company_1 = __importDefault(require("./models/Company"));
+
 var Map_1 = __importDefault(require("./models/Map"));
 
 var map = new Map_1.default('map');
 var user = new User_1.default();
+var company = new Company_1.default();
 map.addMarker(user);
-},{"./models/User":"src/models/User.ts","./models/Map":"src/models/Map.ts"}],"../../../.nvm/versions/node/v12.13.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+map.addMarker(company);
+},{"./models/User":"src/models/User.ts","./models/Company":"src/models/Company.ts","./models/Map":"src/models/Map.ts"}],"../../../.nvm/versions/node/v12.13.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -85204,7 +85254,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64871" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57815" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

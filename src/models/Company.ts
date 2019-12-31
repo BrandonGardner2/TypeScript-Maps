@@ -16,6 +16,10 @@ class Company {
       lng: parseFloat(faker.address.longitude()),
     };
   }
+
+  htmlSummary(): string {
+    return `${this.name}, ${this.catchPhrase}`;
+  }
 }
 
 export default Company;
